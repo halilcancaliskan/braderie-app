@@ -7,7 +7,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+button { font: inherit; }
+::selection { background: rgba(34, 211, 238, 0.25); }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Leaflet CSS */
+@import url('leaflet/dist/leaflet.css');
