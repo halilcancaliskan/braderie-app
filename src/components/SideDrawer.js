@@ -40,14 +40,35 @@ function SideDrawer({ open, onClose, onNavigate }) {
         ref={panelRef}
       >
         <div className="drawer__header">
-          <div className="drawer__title" id="drawer-title">Menu</div>
-          <button className="drawer__close" aria-label="Fermer" onClick={onClose}>✕</button>
+          <div className="drawer__brand">
+            <div className="drawer__logo">🏪</div>
+            <div>
+              <div className="drawer__title" id="drawer-title">Braderie Finder</div>
+              <div className="drawer__subtitle">Découvrez les braderies</div>
+            </div>
+          </div>
+          <button className="drawer__close" aria-label="Fermer" onClick={onClose}>
+            <span>✕</span>
+          </button>
         </div>
         <nav className="drawer__nav" role="navigation" aria-label="Navigation principale">
-          <button className="drawer__item" onClick={() => onNavigate?.('discover')}>Découvrir</button>
-          <button className="drawer__item" onClick={() => onNavigate?.('publish')}>Publier</button>
-          <button className="drawer__item" onClick={() => onNavigate?.('map')}>Carte</button>
-          <button className="drawer__item" onClick={() => onNavigate?.('profile')}>Profil</button>
+          <button className="drawer__item" onClick={() => onNavigate?.('discover')}>
+            <span className="drawer__item-icon">🏠</span>
+            <span className="drawer__item-text">Découvrir</span>
+          </button>
+          <button className="drawer__item" onClick={() => onNavigate?.('publish')}>
+            <span className="drawer__item-icon">➕</span>
+            <span className="drawer__item-text">Publier</span>
+          </button>
+          <button className="drawer__item" onClick={() => onNavigate?.('map')}>
+            <span className="drawer__item-icon">🗺️</span>
+            <span className="drawer__item-text">Carte</span>
+          </button>
+          <div className="drawer__divider"></div>
+          <button className="drawer__item" onClick={() => onNavigate?.('profile')}>
+            <span className="drawer__item-icon">👤</span>
+            <span className="drawer__item-text">Profil</span>
+          </button>
         </nav>
       </aside>
     </div>

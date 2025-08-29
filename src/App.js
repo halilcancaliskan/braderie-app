@@ -19,6 +19,14 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [openedStand, setOpenedStand] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [userCity, setUserCity] = React.useState(() => {
+    const saved = localStorage.getItem('userCity');
+    return saved || '';
+  });
+  const [darkMode, setDarkMode] = React.useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
 
   const tabs = [
     { key: 'discover', label: 'Découvrir', icon: '🏠' },
@@ -31,7 +39,7 @@ function App() {
   };
 
   const titleMap = {
-    discover: 'Découvrir',
+    discover: 'Braderie Finder',
     publish: 'Publier',
     map: 'Carte',
     favorites: 'Favoris',
@@ -53,6 +61,26 @@ function App() {
   const navigateFromDrawer = (key) => { setActiveTab(key); setDrawerOpen(false); };
 
   const openFavorites = () => { setOpenedStand(null); setActiveTab('favorites'); };
+
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('darkMode', JSON.stringify(newMode));
+  };
+
+  // Apply dark mode class to document
+  React.useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const updateUserCity = (city) => {
+    setUserCity(city);
+    localStorage.setItem('userCity', city);
+  };
 
   return (
     <div className="app-shell">
@@ -76,9 +104,19 @@ function App() {
           </button>
         )}
         rightSlot={(
-          <button className="icon-btn" aria-label="Favoris" title="Favoris" onClick={openFavorites}>
-            <span className="bottombar__icon" aria-hidden>❤️</span>
-          </button>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <button 
+              className="icon-btn" 
+              aria-label={darkMode ? "Mode clair" : "Mode sombre"} 
+              title={darkMode ? "Mode clair" : "Mode sombre"}
+              onClick={toggleDarkMode}
+            >
+              <span aria-hidden="true">{darkMode ? '☀️' : '🌙'}</span>
+            </button>
+            <button className="icon-btn" aria-label="Favoris" title="Favoris" onClick={openFavorites}>
+              <span className="bottombar__icon" aria-hidden>❤️</span>
+            </button>
+          </div>
         )}
       />
 
@@ -92,6 +130,8 @@ function App() {
                   favorites={favorites}
                   onToggleFav={toggleFav}
                   onOpenStand={setOpenedStand}
+                  userCity={userCity}
+                  onCityChange={updateUserCity}
                 />
               )}
               {activeTab === 'map' && (
